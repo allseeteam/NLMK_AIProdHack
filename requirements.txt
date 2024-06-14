@@ -6,3 +6,6 @@ langchain_community
 python-dotenv
 google
 google-api-python-client
+streamlit
+html2text
+newsapi-python

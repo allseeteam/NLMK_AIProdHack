@@ -1,0 +1,42 @@
++ gpt summary
++- collect metainfo
++- streamlit
++- db with filtering (date-span, cats)
+! scoring
+! clearer texts with jina
+add vector search (demo)
+scrape more news:
+- пройтись по нужным сми (из файла)
+- использовать другие запросы (из excel)
+- parse with https://r.jina.ai/
+match cats in dedupl phase (it makes cats multilabel)
+Worker (weekly parse) OR just *how to run the scraper*
+
+metainfo:
+- image
+- date
+- title
+- categories (matched)
+- rank
+
+gpt-info:
+- summary
+- events
+- relevancy
+- is_news news | blogpost | forum | review | educational | company
+- is_relevant
+
+
+news-card:
+- title (link)
+- category
+- date
+- link
+- summary / snippet
+- events
+
+
+
+article:published_time
+article:modified_time
+date_scraped

@@ -2,3 +2,4 @@ output
 vectorstore
 nodejs
 .env
+__pycache__
