@@ -7,7 +7,7 @@ import json
 
 @st.cache_data
 def get_items():
-    with open("output/url_items_all.json", "r") as f:
+    with open("data/url_items_all.json", "r") as f:
         url_items = json.load(f)
     
     for item in url_items:
