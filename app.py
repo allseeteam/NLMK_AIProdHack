@@ -49,7 +49,7 @@ if len(d) == 2:
     url_items = [item for item in url_items if item['date'] is not None and d0 <= item['date'] <= d1]
 
     # Improved display format for news items
-    for item in url_items[:10]:
+    for i, item in enumerate(url_items[:20]):
         date = item['date']
         if date is not None:
             date = date.strftime('%d.%m.%Y')
@@ -57,7 +57,7 @@ if len(d) == 2:
         events = item['answer']['key_events']
         if isinstance(events, list):
             events = '\n - '.join(events)
-        st.markdown(f"#### **{item['title']}**")
+        st.markdown(f"#### \#{i+1} **{item['title']}**")
         st.markdown(f"*{item['category']}* | *{date}*")
         st.markdown(f"**Summary:** {summary}")
         st.markdown(f"**Events:** \n{events}")
