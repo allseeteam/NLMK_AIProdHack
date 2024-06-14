@@ -18,25 +18,26 @@
 Оверью по коду и детали реализации.
 
 
-1. Запросы для поиска новостей: [search_queries_merged.json](queries/search_queries_merged.json)
+1. Мы написали запросы, по которым будет происходить поиск новостей: [search_queries_merged.json](queries/search_queries_merged.json)
 
 
-2. Код для поиска в новостей. На этом этапе мы ищем и собираем url страниц с актуальными и релевантными новостями, сами страницы парсятся на следующем шаге.
- - Google Search API: [search.ipynb](search.ipynb)
- - News API: [search-newsapi.ipynb](search-newsapi.ipynb)
+2. По этим запросам мы ищем и собираем url страниц с актуальными новостями, которые далее предстоит распарсить и обработать.
+    - Google Search API: [search.ipynb](search.ipynb)
+    - News API: [search-newsapi.ipynb](search-newsapi.ipynb)
 
 
-3. Web Scraper. Здесь мы открываем url и скачиванием raw html. Затем мы переводим сырой HTML в очищенный текст для подачи в LLM на анализ.
- - Для загрузки используем AsyncChromiumLoader и AsyncHtmlLoader из Langchaing [extract_texts.py](extract_texts.py)
- - Для очистки - BeautifulSoup и html2text (оба инструмента также реализованы в Langchaing) [extract_texts.py](extract_texts.py)
+3. Web Scraper. Здесь мы открываем страницы и скачиванием raw html. Затем очищаем текст от тэгов и ненужных частей страницы, которые не относятся к тексту новости. Чем чище получится текст, тем точнее будут ответы LLM.
+    - Для загрузки страниц использовали AsyncChromiumLoader и AsyncHtmlLoader из Langchaing [extract_texts.py](extract_texts.py)
+    - Для очистки - BeautifulSoup и html2text (оба инструмента также реализованы в Langchaing) [extract_texts.py](extract_texts.py)
+    - В конце хакатона мы нашли еще один хороший инструмент для очистки текста - Jina: [extract_texts_jina.ipynb](extract_texts_jina.ipynb)
 
 
-4. Просим LLM проставить relevance score для каждой новости от 0 до 10. Это полезно по двум причинам: 1) выдача гугла часто выдает совершенно нерелевантные новости, которые нужно убрать; 2) по relevance score будем ранжировать итоговый дайджест, отправляя самые релевантные новсти в топ. Помимо скора, LLM генерирует summary, key_events, title, text_type (является ли текст новостю, блог постом, или чем-то еще?)
- - Мы используем модель `GPT-4o`.
- - code: [chatgpt.ipynb](chatgpt.ipynb)
- - Полный промпт: [prompts/ru.md](prompts/ru.md)
+4. Далее, просим LLM проставить relevance score для каждой новости от 0 до 10. Это полезно по двум причинам: 1) выдача гугла часто выдает совершенно нерелевантные новости, которые нужно убрать; 2) по relevance score будем ранжировать итоговый дайджест, отправляя самые релевантные новсти в топ. Помимо скора, LLM генерирует summary, key_events, title, text_type (является ли текст новостю, блог постом, или чем-то еще?)
+    - Мы используем модель `GPT-4o`.
+    - code: [chatgpt.ipynb](chatgpt.ipynb)
+    - Полный промпт: [prompts/ru.md](prompts/ru.md)
 
-JSON выглядит так:
+Мы ждем от модели JSON такого формата:
 ```
 {
   "summary": "Предоставьте краткое содержание текста, выделив его основные моменты",
@@ -49,5 +50,5 @@ JSON выглядит так:
 
 
 5. Объединяем всё в удобный интерфейс, сделанном на Streamlit. Новости ранжируются по relevance_score, их можно фильтровать по категориям и по дате публикации.
- - [app.py](app.py)
+    - [app.py](app.py)
 
